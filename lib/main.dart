@@ -4,14 +4,17 @@ import 'package:hive/hive.dart';
 import 'package:never_forget/theme/nf_theme.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'core/service/notification_service.dart';
 import 'enum/repetition_type.dart';
 import 'model/reminder.dart';
 import 'page/home_page.dart';
 
-void main() => runApp(App());
+void main() {
+  NotificationService.setupLocalNotification();
+  runApp(App());
+}
 
 class App extends StatelessWidget {
-
   Future<void> _initHive() async {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);

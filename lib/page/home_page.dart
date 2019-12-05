@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:never_forget/core/service/notification_service.dart';
 import 'package:never_forget/core/service/reminder_service.dart';
 
 import 'package:never_forget/page/reminders_list/reminders_list_page.dart';
+import '../main.dart';
 import 'settings_page.dart';
 import 'widgets/nf_app_bar.dart';
 import 'widgets/nf_bottom_navigation_bar.dart';
@@ -48,7 +51,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void navigateTo(int index) {
+  void navigateTo(int index) async {
+    NotificationService.scheduleNotification(
+      id: 1,
+      title: 'Teste de titulo',
+      body: 'Teste de body',
+      payload: 'Teste payload',
+      notificationDate: DateTime.now().add(Duration(seconds: 4))
+    );
+
     setState(() => _selectedIndex = index);
   }
 
