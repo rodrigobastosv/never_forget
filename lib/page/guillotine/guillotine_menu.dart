@@ -55,43 +55,45 @@ class _GuillotineMenuState extends State<GuillotineMenu>
     ]);
 
     /// Initialization of the animation controller
-    animationControllerMenu = new AnimationController(
+    animationControllerMenu = AnimationController(
         duration: const Duration(
-          milliseconds: 750,
+          milliseconds: 500,
         ),
         vsync: this)
       ..addListener(() {});
 
     /// Initialization of the menu appearance animation
-    animationMenu =
-        new Tween(begin: -pi / 2.0, end: 0.0).animate(new CurvedAnimation(
-      parent: animationControllerMenu,
-      curve: Curves.bounceOut,
-      reverseCurve: Curves.bounceIn,
-    ))
-          ..addListener(() {
-            setState(() => {});
-          })
-          ..addStatusListener((AnimationStatus status) {
-            if (status == AnimationStatus.completed) {
-              menuAnimationStatus = MenuStatus.open;
-            } else if (status == AnimationStatus.dismissed) {
-              menuAnimationStatus = MenuStatus.closed;
-            } else {
-              menuAnimationStatus = MenuStatus.animating;
-            }
-          });
+    animationMenu = Tween(begin: -pi / 2.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: animationControllerMenu,
+        curve: Curves.ease,
+        reverseCurve: Curves.ease,
+      ),
+    )
+      ..addListener(() => setState(() => {}))
+      ..addStatusListener(
+        (AnimationStatus status) {
+          if (status == AnimationStatus.completed) {
+            menuAnimationStatus = MenuStatus.open;
+          } else if (status == AnimationStatus.dismissed) {
+            menuAnimationStatus = MenuStatus.closed;
+          } else {
+            menuAnimationStatus = MenuStatus.animating;
+          }
+        },
+      );
 
     /// Initialization of the menu title fade out/in animation
-    animationTitleFadeInOut =
-        new Tween(begin: 1.0, end: 0.0).animate(new CurvedAnimation(
-      parent: animationControllerMenu,
-      curve: new Interval(
-        0.0,
-        0.5,
-        curve: Curves.ease,
+    animationTitleFadeInOut = Tween(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: animationControllerMenu,
+        curve: Interval(
+          0.0,
+          0.5,
+          curve: Curves.ease,
+        ),
       ),
-    ));
+    );
   }
 
   @override
@@ -215,6 +217,7 @@ class _GuillotineMenuState extends State<GuillotineMenu>
                                         onTap: () {
                                           _playAnimation();
                                           menuBloc.pickMenu(menus[i]);
+                                          menus[i].onTap();
                                         },
                                       ),
                                     ),
