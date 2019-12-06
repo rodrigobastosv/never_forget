@@ -40,7 +40,10 @@ class _ReminderDateWidgetState extends State<ReminderDateWidget> {
                 Icon(Icons.date_range),
                 SizedBox(width: 8),
                 Text(
-                  'Data do Lembrete',
+                  'Data do Lembrete *',
+                  style: TextStyle(
+                    fontSize: 14
+                  ),
                 ),
                 SizedBox(width: 8),
                 pickedDate != null ? Text(pickedDate) : Container(),

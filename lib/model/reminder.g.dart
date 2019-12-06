@@ -19,7 +19,7 @@ class ReminderAdapter extends TypeAdapter<Reminder> {
       ..date = fields[2] as DateTime
       ..assetImage = fields[3] as String
       ..repetitionType = fields[4] as RepetitionType
-      ..notificationId = fields[5] as String;
+      ..notificationId = fields[5] as int;
   }
 
   @override

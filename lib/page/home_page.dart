@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:never_forget/core/service/notification_service.dart';
 import 'package:never_forget/core/service/reminder_service.dart';
+import 'package:never_forget/enum/page.dart';
 
 import 'package:never_forget/page/reminders_list/reminders_list_page.dart';
-import '../main.dart';
 import 'settings_page.dart';
 import 'widgets/nf_app_bar.dart';
 import 'widgets/nf_bottom_navigation_bar.dart';
@@ -21,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex;
   Future<void> boxFuture;
 
+  Page get _currentPage => _getCurrentPage(_selectedIndex);
   final _reminderService = ReminderService();
 
   @override
@@ -46,33 +45,44 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: NFBottomNavigationBar(
         selectedIndex: _selectedIndex,
-        onChangedItem: navigateTo,
+        onChangedItem: _navigateTo,
       ),
+      floatingActionButton: _currentPage != Page.SaveReminder ? FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _navigateTo(2),
+      ) : null,
     );
   }
 
-  void navigateTo(int index) async {
-    NotificationService.scheduleNotification(
-      id: 1,
-      title: 'Teste de titulo',
-      body: 'Teste de body',
-      payload: 'Teste payload',
-      notificationDate: DateTime.now().add(Duration(seconds: 4))
-    );
-
+  void _navigateTo(int index) async {
     setState(() => _selectedIndex = index);
   }
 
   Widget _getPage(int index) {
     switch (index) {
       case 0:
-        return RemindersCalendarPage(navigateTo: navigateTo);
+        return RemindersCalendarPage(navigateTo: _navigateTo);
       case 1:
-        return RemindersListPage(navigateTo: navigateTo);
+        return RemindersListPage(navigateTo: _navigateTo);
       case 2:
-        return SaveReminderPage(navigateTo: navigateTo);
+        return SaveReminderPage(navigateTo: _navigateTo);
       case 3:
-        return SettingsPage(navigateTo: navigateTo);
+        return SettingsPage(navigateTo: _navigateTo);
+      default:
+        return null;
+    }
+  }
+
+  Page _getCurrentPage(int index) {
+    switch (index) {
+      case 0:
+        return Page.RemindersCalendar;
+      case 1:
+        return Page.RemindersList;
+      case 2:
+        return Page.SaveReminder;
+      case 3:
+        return Page.Settings;
       default:
         return null;
     }

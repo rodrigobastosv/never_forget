@@ -16,4 +16,9 @@ class ReminderService {
     final reminderBox = getReminderBox();
     return reminderBox.values.toList();
   }
+
+  Future<void> saveReminder(Reminder reminder) async {
+    final reminders = getReminderBox();
+    await reminders.add(reminder);
+  }
 }

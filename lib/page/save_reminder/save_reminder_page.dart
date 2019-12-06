@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:gg_flutter_components/gg_flutter_components.dart';
+import 'package:never_forget/core/service/notification_service.dart';
 
 import 'package:never_forget/core/service/reminder_service.dart';
 import 'package:never_forget/core/utils.dart';
@@ -55,7 +56,8 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                     GGOutlinedTextFormField(
                       labelText: 'Descrição *',
                       textInputAction: TextInputAction.done,
-                      onSaved: (description) => _reminder.description = description,
+                      onSaved: (description) =>
+                          _reminder.description = description,
                       validator: emptyValidator,
                       minLines: 3,
                       maxLines: 5,
@@ -76,12 +78,20 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
           final formState = _formKey.currentState;
           if (formState.validate()) {
             formState.save();
-            final reminders = _reminderService.getReminderBox();
-            await reminders.add(_reminder);
+            final notificationId =
+                // TODO(rodrigo): Criar lógica pra quando tiver asset mandar uma notificação com asset
+                await NotificationService.scheduleNotification(
+                    title: _reminder.title,
+                    body: _reminder.description,
+                    // TODO(rodrigo): Criar logica de pegar esse valor de uma configuração
+                    notificationDate:
+                        _reminder.date.subtract(Duration(hours: 1)));
+            _reminder.notificationId = notificationId;
+            await _reminderService.saveReminder(_reminder);
             widget.navigateTo(Pages.RemindersListPage.index);
           }
         },
-        child: Icon(Icons.save_alt),
+        child: Icon(Icons.save),
       ),
     );
   }

@@ -22,7 +22,7 @@ class Reminder extends HiveObject {
   RepetitionType repetitionType;
 
   @HiveField(5)
-  String notificationId;
+  int notificationId;
 
   @override
   String toString() {
