@@ -16,6 +16,15 @@ class MenuBloc implements Bloc {
     _menuController.add(menus);
   }
 
+  Menu getPickedMenu() {
+    for (Menu menu in menus) {
+      if (menu.isPicked) {
+        return menu;
+      }
+    }
+    return null;
+  }
+
   void pickMenu(Menu pickedMenu) {
     final listMenus = List<Menu>.unmodifiable(menus);
     for (Menu menu in listMenus) {

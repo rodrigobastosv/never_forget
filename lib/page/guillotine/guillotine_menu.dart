@@ -4,6 +4,7 @@ import 'package:never_forget/core/bloc/menu_bloc.dart';
 import 'dart:math';
 
 import 'package:never_forget/core/bloc/navigation_bloc.dart';
+import 'package:never_forget/enum/menu_status.dart';
 import 'package:never_forget/enum/page.dart';
 import 'package:never_forget/model/menu.dart';
 
@@ -17,16 +18,15 @@ class _GuillotineMenuState extends State<GuillotineMenu>
   AnimationController animationControllerMenu;
   Animation<double> animationMenu;
   Animation<double> animationTitleFadeInOut;
-  _GuillotineAnimationStatus menuAnimationStatus;
+  MenuStatus menuAnimationStatus;
 
-  List<Menu> _menus;
   NavigationBloc navigationBloc;
   MenuBloc menuBloc;
 
   @override
   void initState() {
     super.initState();
-    menuAnimationStatus = _GuillotineAnimationStatus.closed;
+    menuAnimationStatus = MenuStatus.closed;
 
     navigationBloc = BlocProvider.of<NavigationBloc>(context);
     menuBloc = BlocProvider.of<MenuBloc>(context);
@@ -54,19 +54,15 @@ class _GuillotineMenuState extends State<GuillotineMenu>
           isPicked: false)
     ]);
 
-    ///
     /// Initialization of the animation controller
-    ///
     animationControllerMenu = new AnimationController(
         duration: const Duration(
-          milliseconds: 1000,
+          milliseconds: 750,
         ),
         vsync: this)
       ..addListener(() {});
 
-    ///
     /// Initialization of the menu appearance animation
-    ///
     animationMenu =
         new Tween(begin: -pi / 2.0, end: 0.0).animate(new CurvedAnimation(
       parent: animationControllerMenu,
@@ -78,17 +74,15 @@ class _GuillotineMenuState extends State<GuillotineMenu>
           })
           ..addStatusListener((AnimationStatus status) {
             if (status == AnimationStatus.completed) {
-              menuAnimationStatus = _GuillotineAnimationStatus.open;
+              menuAnimationStatus = MenuStatus.open;
             } else if (status == AnimationStatus.dismissed) {
-              menuAnimationStatus = _GuillotineAnimationStatus.closed;
+              menuAnimationStatus = MenuStatus.closed;
             } else {
-              menuAnimationStatus = _GuillotineAnimationStatus.animating;
+              menuAnimationStatus = MenuStatus.animating;
             }
           });
 
-    ///
     /// Initialization of the menu title fade out/in animation
-    ///
     animationTitleFadeInOut =
         new Tween(begin: 1.0, end: 0.0).animate(new CurvedAnimation(
       parent: animationControllerMenu,
@@ -106,14 +100,12 @@ class _GuillotineMenuState extends State<GuillotineMenu>
     super.dispose();
   }
 
-  ///
   /// Play the animation in the direction that depends on the current menu status
-  ///
   void _playAnimation() {
     try {
-      if (menuAnimationStatus == _GuillotineAnimationStatus.animating) {
+      if (menuAnimationStatus == MenuStatus.animating) {
         // During the animation, do not do anything
-      } else if (menuAnimationStatus == _GuillotineAnimationStatus.closed) {
+      } else if (menuAnimationStatus == MenuStatus.closed) {
         animationControllerMenu.forward().orCancel;
       } else {
         animationControllerMenu.reverse().orCancel;
@@ -126,6 +118,9 @@ class _GuillotineMenuState extends State<GuillotineMenu>
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
+    Color primaryColor = Theme.of(context).primaryColor;
+    Color primaryColorDark = Theme.of(context).primaryColorDark;
+
     double screenWidth = mediaQueryData.size.width;
     double screenHeight = mediaQueryData.size.height;
     double angle = animationMenu.value;
@@ -139,101 +134,101 @@ class _GuillotineMenuState extends State<GuillotineMenu>
         child: Container(
           width: screenWidth,
           height: screenHeight,
-          color: Theme.of(context).primaryColor,
+          color: primaryColor,
           child: Stack(
             children: <Widget>[
-              ///
               /// Menu title
-              ///
               Positioned(
                 top: 32.0,
                 left: 40.0,
                 width: screenWidth,
                 height: 24.0,
                 child: Transform.rotate(
-                    alignment: Alignment.topLeft,
-                    origin: Offset.zero,
-                    angle: pi / 2.0,
-                    child: Center(
-                      child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: Opacity(
-                          opacity: animationTitleFadeInOut.value,
-                          child: StreamBuilder<Page>(
-                            stream: navigationBloc.navigationStream,
-                            builder: (_, snapshot) {
-                              return Text(
-                                snapshot.data.toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 2.0,
-                                ),
-                              );
-                            },
-                          ),
+                  alignment: Alignment.topLeft,
+                  origin: Offset.zero,
+                  angle: pi / 2.0,
+                  child: Center(
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Opacity(
+                        opacity: animationTitleFadeInOut.value,
+                        child: StreamBuilder<Page>(
+                          stream: navigationBloc.navigationStream,
+                          builder: (_, snapshot) {
+                            return Text(
+                              menuBloc.getPickedMenu()?.title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: primaryColorDark,
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2.0,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ),
 
-              ///
               /// Hamburger icon
-              ///
               Positioned(
                 top: 32.0,
                 left: 4.0,
                 child: IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.menu,
-                    color: Colors.white,
+                    color: primaryColorDark,
                   ),
                   onPressed: _playAnimation,
                 ),
               ),
 
-              ///
               /// Menu content
-              ///
               StreamBuilder<List<Menu>>(
-                  stream: BlocProvider.of<MenuBloc>(context).menusStream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final menus = snapshot.data;
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 64.0, top: 96.0),
-                        child: Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                ListView.builder(
-                                  itemBuilder: (_, i) => ListTile(
-                                    title: Text(
-                                      menus[i].title,
-                                      style: TextStyle(
-                                          color: menus[i].isPicked
-                                              ? Colors.red
-                                              : Colors.blue),
+                stream: BlocProvider.of<MenuBloc>(context).menusStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final menus = snapshot.data;
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 8.0, top: 56.0),
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: (menuAnimationStatus == MenuStatus.closed ||
+                                menuAnimationStatus == MenuStatus.animating)
+                            ? Container()
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ListView.builder(
+                                    itemBuilder: (_, i) => Container(
+                                      color: menus[i].isPicked
+                                          ? primaryColorDark
+                                          : primaryColor,
+                                      child: ListTile(
+                                        leading: Icon(menus[i].icon),
+                                        title: Text(menus[i].title),
+                                        onTap: () {
+                                          _playAnimation();
+                                          menuBloc.pickMenu(menus[i]);
+                                        },
+                                      ),
                                     ),
-                                    onTap: () {
-                                      _playAnimation();
-                                      menuBloc.pickMenu(menus[i]);
-                                    },
+                                    itemCount: menus.length,
+                                    shrinkWrap: true,
                                   ),
-                                  itemCount: menus.length,
-                                  shrinkWrap: true,
-                                ),
-                              ]),
-                        ),
-                      );
-                    }
-                    return Container();
-                  }),
+                                ],
+                              ),
+                      ),
+                    );
+                  }
+                  return Container();
+                },
+              ),
             ],
           ),
         ),
@@ -241,8 +236,3 @@ class _GuillotineMenuState extends State<GuillotineMenu>
     );
   }
 }
-
-///
-/// Menu animation status
-///
-enum _GuillotineAnimationStatus { closed, open, animating }

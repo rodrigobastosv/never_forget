@@ -1,0 +1,1 @@
+enum MenuStatus { closed, open, animating }
