@@ -4,9 +4,6 @@ import 'package:never_forget/core/service/reminder_service.dart';
 import 'reminder_tile.dart';
 
 class RemindersListPage extends StatelessWidget {
-  RemindersListPage({this.navigateTo});
-
-  final Function(int) navigateTo;
   final _reminderService = ReminderService();
 
   @override

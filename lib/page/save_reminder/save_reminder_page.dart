@@ -5,7 +5,6 @@ import 'package:gg_flutter_components/gg_flutter_components.dart';
 import 'package:never_forget/core/service/notification_service.dart';
 
 import 'package:never_forget/core/service/reminder_service.dart';
-import 'package:never_forget/core/utils.dart';
 import 'package:never_forget/model/reminder.dart';
 import 'package:never_forget/ui/ui_constants.dart';
 
@@ -13,10 +12,6 @@ import 'add_image_container.dart';
 import 'reminder_date_widget.dart';
 
 class SaveReminderPage extends StatefulWidget {
-  const SaveReminderPage({this.navigateTo});
-
-  final Function(int) navigateTo;
-
   @override
   _SaveReminderPageState createState() => _SaveReminderPageState();
 }
@@ -88,7 +83,6 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                         _reminder.date.subtract(Duration(hours: 1)));
             _reminder.notificationId = notificationId;
             await _reminderService.saveReminder(_reminder);
-            widget.navigateTo(Pages.RemindersListPage.index);
           }
         },
         child: Icon(Icons.save),

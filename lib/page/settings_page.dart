@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({this.navigateTo});
-
-  final Function(int) navigateTo;
 
   @override
   Widget build(BuildContext context) {
