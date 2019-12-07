@@ -7,25 +7,28 @@ part 'reminder.g.dart';
 class Reminder extends HiveObject {
 
   @HiveField(0)
-  String title;
+  String id;
 
   @HiveField(1)
-  String description;
+  String title;
 
   @HiveField(2)
-  DateTime date;
+  String description;
 
   @HiveField(3)
-  String assetImage;
+  DateTime date;
 
   @HiveField(4)
-  RepetitionType repetitionType;
+  String assetImage;
 
   @HiveField(5)
+  RepetitionType repetitionType;
+
+  @HiveField(6)
   int notificationId;
 
   @override
   String toString() {
-    return 'Reminder{title: $title, description: $description, date: $date, assetImage: $assetImage, repetitionType: $repetitionType, notificationId: $notificationId}';
+    return 'Reminder{id: $id, title: $title, description: $description, date: $date, assetImage: $assetImage, repetitionType: $repetitionType, notificationId: $notificationId}';
   }
 }

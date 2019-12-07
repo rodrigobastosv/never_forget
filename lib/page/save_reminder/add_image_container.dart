@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddImageContainer extends StatefulWidget {
-  const AddImageContainer({this.onPickImage});
+  const AddImageContainer(this.assetPath, {this.onPickImage});
 
+  final String assetPath;
   final Function(File) onPickImage;
 
   @override
@@ -14,6 +15,14 @@ class AddImageContainer extends StatefulWidget {
 
 class _AddImageContainerState extends State<AddImageContainer> {
   File _image;
+
+  @override
+  void initState() {
+    if (widget.assetPath != null) {
+      _image = File(widget.assetPath);
+    }
+    super.initState();
+  }
 
   Future<void> _getImage() async {
     final image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -30,12 +39,10 @@ class _AddImageContainerState extends State<AddImageContainer> {
           color: Theme.of(context).primaryColor,
           width: 2,
         ),
-        borderRadius: BorderRadius.circular(15),
       ),
       child: InkWell(
         onTap: _getImage,
         splashColor: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(15),
         child: Container(
           width: 200,
           height: 200,

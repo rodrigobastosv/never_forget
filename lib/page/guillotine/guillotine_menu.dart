@@ -43,7 +43,7 @@ class _GuillotineMenuState extends State<GuillotineMenu>
           onTap: () => navigationBloc.navigateToPage(Page.RemindersList),
           isPicked: false),
       Menu(
-          title: 'Adicionar',
+          title: 'Salvar Lembrete',
           icon: Icons.add,
           onTap: () => navigationBloc.navigateToPage(Page.SaveReminder),
           isPicked: false),

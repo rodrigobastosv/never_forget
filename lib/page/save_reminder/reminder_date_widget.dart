@@ -3,8 +3,9 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:never_forget/core/date_utils.dart';
 
 class ReminderDateWidget extends StatefulWidget {
-  const ReminderDateWidget({this.onConfirm});
+  const ReminderDateWidget(this.initialDate, {this.onConfirm});
 
+  final DateTime initialDate;
   final Function(DateTime) onConfirm;
 
   @override
@@ -13,6 +14,14 @@ class ReminderDateWidget extends StatefulWidget {
 
 class _ReminderDateWidgetState extends State<ReminderDateWidget> {
   String pickedDate;
+
+  @override
+  void initState() {
+    pickedDate = widget.initialDate != null
+        ? DateUtils.formatLocale(widget.initialDate)
+        : '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +38,12 @@ class _ReminderDateWidgetState extends State<ReminderDateWidget> {
                 maxTime: DateUtils.getMaxTime(),
                 onConfirm: (datePicked) {
                   widget.onConfirm(datePicked);
-                  setState(() => pickedDate = DateUtils.formatLocale(datePicked));
+                  setState(
+                      () => pickedDate = DateUtils.formatLocale(datePicked));
                 },
-                currentTime: DateTime.now(),
+                currentTime: widget.initialDate != null
+                    ? widget.initialDate
+                    : DateTime.now(),
                 locale: LocaleType.pt,
               );
             },
@@ -41,9 +53,7 @@ class _ReminderDateWidgetState extends State<ReminderDateWidget> {
                 SizedBox(width: 8),
                 Text(
                   'Data do Lembrete *',
-                  style: TextStyle(
-                    fontSize: 14
-                  ),
+                  style: TextStyle(fontSize: 14),
                 ),
                 SizedBox(width: 8),
                 pickedDate != null ? Text(pickedDate) : Container(),

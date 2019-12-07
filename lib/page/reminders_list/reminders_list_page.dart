@@ -10,10 +10,16 @@ class RemindersListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final reminders = _reminderService.getRemindersList();
 
-    return ListView.separated(
-      itemCount: reminders.length,
-      itemBuilder: (_, i) => ReminderTile(reminders[i]),
-      separatorBuilder: (_, i) => Divider(),
+    return Column(
+      children: <Widget>[
+        const SizedBox(height: 50),
+        ListView.separated(
+          shrinkWrap: true,
+          itemCount: reminders.length,
+          itemBuilder: (_, i) => ReminderTile(reminders[i]),
+          separatorBuilder: (_, i) => Divider(),
+        ),
+      ],
     );
   }
 }
