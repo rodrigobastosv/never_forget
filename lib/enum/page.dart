@@ -1,6 +1,6 @@
 enum Page {
+  SaveReminder,
   RemindersList,
   RemindersCalendar,
-  SaveReminder,
   Settings
 }

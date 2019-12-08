@@ -1,14 +1,9 @@
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:never_forget/core/bloc/navigation_bloc.dart';
 import 'package:never_forget/core/service/reminder_service.dart';
 import 'package:never_forget/enum/page.dart';
-
-import 'package:never_forget/page/reminders_list/reminders_list_page.dart';
-import 'settings_page.dart';
-import 'package:never_forget/page/save_reminder/save_reminder_page.dart';
-import 'reminders_calendar_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,48 +11,80 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<void> boxFuture;
-
-  final _reminderService = ReminderService();
+  ReminderService _reminderService;
 
   @override
   void initState() {
-    boxFuture = _reminderService.openReminderBox();
-    initializeDateFormatting();
+    _reminderService = ReminderService();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: boxFuture,
-          builder: (_, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return StreamBuilder<Page>(
-                stream: BlocProvider.of<NavigationBloc>(context).navigationStream,
-                initialData: Page.RemindersCalendar,
-                builder: (_, snapshot) => _navigateToPage(snapshot.data)
-              );
-            }
-            return Container();
-          }
-      ),
-    );
-  }
+    final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
-  Widget _navigateToPage(Page page) {
-    switch (page) {
-      case Page.RemindersCalendar:
-        return RemindersCalendarPage();
-      case Page.RemindersList:
-        return RemindersListPage();
-      case Page.SaveReminder:
-        return SaveReminderPage();
-      case Page.Settings:
-        return SettingsPage();
-      default:
-        return null;
-    }
+    return FutureBuilder(
+        future: _reminderService.openReminderBox(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return StreamBuilder<Page>(
+              stream: navigationBloc.navigationStream,
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  final page = snapshot.data;
+                  return SafeArea(
+                    child: Scaffold(
+                      body: navigationBloc.getPageWidget(page),
+                      bottomNavigationBar: BottomNavyBar(
+                        selectedIndex: page.index,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        showElevation: true,
+                        onItemSelected: (index) =>
+                            navigationBloc.navigateToPageByIndex(index),
+                        items: [
+                          BottomNavyBarItem(
+                            icon: Icon(Icons.add),
+                            title: Text('Adicionar'),
+                            activeColor: Theme.of(context).primaryColorDark,
+                            inactiveColor: Theme.of(context).primaryColor,
+                          ),
+                          BottomNavyBarItem(
+                            icon: Icon(Icons.format_list_numbered),
+                            title: Text('Lembretes'),
+                            activeColor: Theme.of(context).primaryColorDark,
+                            inactiveColor: Theme.of(context).primaryColor,
+                          ),
+                          BottomNavyBarItem(
+                            icon: Icon(Icons.calendar_today),
+                            title: Text('Calendário'),
+                            activeColor: Theme.of(context).primaryColorDark,
+                            inactiveColor: Theme.of(context).primaryColor,
+                          ),
+                          BottomNavyBarItem(
+                            icon: Icon(Icons.settings),
+                            title: Text('Preferências'),
+                            activeColor: Theme.of(context).primaryColorDark,
+                            inactiveColor: Theme.of(context).primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            );
+          } else {
+            return Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        });
   }
 }

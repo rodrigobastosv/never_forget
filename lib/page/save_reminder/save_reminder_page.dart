@@ -42,7 +42,7 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 80),
+            const SizedBox(height: 18),
             ReminderDateWidget(_reminder.date, onConfirm: _onConfirmDate),
             Form(
               key: _formKey,

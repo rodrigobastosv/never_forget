@@ -4,13 +4,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:never_forget/core/bloc/menu_bloc.dart';
 import 'package:never_forget/core/bloc/navigation_bloc.dart';
+import 'package:never_forget/page/home_page.dart';
 import 'package:never_forget/theme/nf_theme.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'core/service/notification_service.dart';
 import 'enum/repetition_type.dart';
 import 'model/reminder.dart';
-import 'page/guillotine/guillotine_page.dart';
 
 void main() {
   NotificationService.setupLocalNotification();
@@ -43,7 +43,7 @@ class App extends StatelessWidget {
             future: _initHive(),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                return GuillotinePage();
+                return HomePage();
               }
               return Container();
             },
