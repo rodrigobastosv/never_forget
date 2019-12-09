@@ -13,7 +13,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Future<Configurations> futureBox;
+  Future<Configurations> futurePrefs;
   SettingsBloc settingsBloc;
   SettingsService settingsService;
 
@@ -21,6 +21,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     settingsService = SettingsService();
     settingsBloc = BlocProvider.of<SettingsBloc>(context);
+    futurePrefs = settingsService.getSettings();
     initConfigs();
     super.initState();
   }
@@ -31,61 +32,80 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Preferências'),
-        centerTitle: true,
-      ),
-      body: SettingsList(
-        sections: [
-          SettingsSection(
-            title: 'Geral',
-            tiles: [
-              SettingsTile(
-                title: 'Idioma',
-                subtitle: '1',
-                leading: Icon(Icons.language),
-              ),
-            ],
-          ),
-          SettingsSection(
-            title: 'Notificações',
-            tiles: [
-              SettingsTile(
-                title: 'Horas de antecedência para notificar',
-                subtitle:
-                '3 horas',
-                leading: Icon(Icons.timer),
-                onTap: () async {
-                  final pickedValue = await showDialog(
-                    context: context,
-                    builder: (_) => NumberPickerDialog.integer(
-                      minValue: 1,
-                      maxValue: 10,
-                      initialIntegerValue: 1,
+    return FutureBuilder<Configurations>(
+      future: futurePrefs,
+      builder: (_, snapshotPrefs) {
+        if (snapshotPrefs.hasData) {
+          final configsFromPrefs = snapshotPrefs.data;
+
+          return StreamBuilder<Configurations>(
+            stream: settingsBloc.settingsStream,
+            initialData: configsFromPrefs,
+            builder: (_, snapshot) {
+              final pickedPreferences = snapshot.data;
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text('Preferências'),
+                  centerTitle: true,
+                ),
+                body: SettingsList(
+                  sections: [
+                    SettingsSection(
+                      title: 'Geral',
+                      tiles: [
+                        SettingsTile(
+                          title: 'Idioma',
+                          subtitle: pickedPreferences.languageId.toString(),
+                          leading: Icon(Icons.language),
+                        ),
+                      ],
                     ),
-                  );
-                  if (pickedValue != null) {
-                    settingsBloc
-                        .updateHoursToNotificate(pickedValue);
-                  }
-                },
-              ),
-            ],
-          ),
-          SettingsSection(
-            title: 'Aparência',
-            tiles: [
-              SettingsTile.switchTile(
-                title: 'Modo Escuro',
-                leading: Icon(Feather.moon),
-                switchValue: true,
-                onToggle: settingsBloc.updateDarkMode,
-              ),
-            ],
-          ),
-        ],
-      ),
+                    SettingsSection(
+                      title: 'Notificações',
+                      tiles: [
+                        SettingsTile(
+                          title: 'Horas de antecedência para notificar',
+                          subtitle:
+                              '${pickedPreferences.hoursToNotificate == 1 ? '1 hora' : '${pickedPreferences.hoursToNotificate} horas'}',
+                          leading: Icon(Icons.timer),
+                          onTap: () async {
+                            final pickedValue = await showDialog(
+                              context: context,
+                              builder: (_) => NumberPickerDialog.integer(
+                                minValue: 1,
+                                maxValue: 10,
+                                initialIntegerValue:
+                                    pickedPreferences.hoursToNotificate,
+                              ),
+                            );
+                            if (pickedValue != null) {
+                              settingsBloc.updateHoursToNotificate(pickedValue);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    SettingsSection(
+                      title: 'Aparência',
+                      tiles: [
+                        SettingsTile.switchTile(
+                          title: 'Modo Escuro',
+                          leading: Icon(Feather.moon),
+                          switchValue: pickedPreferences.darkMode,
+                          onToggle: settingsBloc.updateDarkMode,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

@@ -17,7 +17,20 @@ import 'model/reminder.dart';
 
 void main() {
   NotificationService.setupLocalNotification();
+  initPreferencesIfNecessary();
   runApp(App());
+}
+
+void initPreferencesIfNecessary() async {
+  final settingsService = SettingsService();
+  final settings = await settingsService.getSettings();
+  if (settings == null) {
+    final firstConfig = Configurations();
+    firstConfig.languageId = 1;
+    firstConfig.hoursToNotificate = 7;
+    firstConfig.darkMode = false;
+    await settingsService.saveSettings(firstConfig);
+  }
 }
 
 class App extends StatelessWidget {

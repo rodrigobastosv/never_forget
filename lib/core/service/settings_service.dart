@@ -18,7 +18,6 @@ class SettingsService {
 
   Future<void> saveSettings(Configurations configurations) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final configurations = Configurations();
     prefs.setString(SETTINGS, jsonEncode(configurations.toJson()));
   }
 }
