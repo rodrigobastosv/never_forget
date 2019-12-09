@@ -5,12 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 class SettingsBloc implements Bloc {
   final settingsService = SettingsService();
-  final settingsController = BehaviorSubject<Configurations>.seeded(
-      Configurations()
-        ..languageId = 1
-        ..hoursToNotificate = 3
-        ..darkMode = false
-  );
+  final settingsController = BehaviorSubject<Configurations>.seeded(null);
 
   Stream<Configurations> get settingsStream => settingsController.stream;
 
@@ -18,8 +13,7 @@ class SettingsBloc implements Bloc {
     return settingsController.value;
   }
 
-  void initConfigurations() async {
-    final configurations = await settingsService.getSettings();
+  void initConfigurations(Configurations configurations) {
     settingsController.add(configurations);
   }
 
