@@ -1,4 +1,5 @@
 const REMINDER = 'reminder';
+const SETTINGS = 'settings';
 
 enum Pages {
   RemindersCalendarPage,

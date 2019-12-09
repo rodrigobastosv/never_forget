@@ -14,29 +14,32 @@ class ReminderAdapter extends TypeAdapter<Reminder> {
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Reminder()
-      ..title = fields[0] as String
-      ..description = fields[1] as String
-      ..date = fields[2] as DateTime
-      ..assetImage = fields[3] as String
-      ..repetitionType = fields[4] as RepetitionType
-      ..notificationId = fields[5] as int;
+      ..id = fields[0] as String
+      ..title = fields[1] as String
+      ..description = fields[2] as String
+      ..date = fields[3] as DateTime
+      ..assetImage = fields[4] as String
+      ..repetitionType = fields[5] as RepetitionType
+      ..notificationId = fields[6] as int;
   }
 
   @override
   void write(BinaryWriter writer, Reminder obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.description)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.date)
+      ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.assetImage)
+      ..write(obj.date)
       ..writeByte(4)
-      ..write(obj.repetitionType)
+      ..write(obj.assetImage)
       ..writeByte(5)
+      ..write(obj.repetitionType)
+      ..writeByte(6)
       ..write(obj.notificationId);
   }
 }
