@@ -11,7 +11,7 @@ class NotificationService {
   static Future<void> setupLocalNotification() async {
     _random = Random();
     final initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_launcher');
+        AndroidInitializationSettings('ic_stat_event');
     final initializationSettings =
         InitializationSettings(initializationSettingsAndroid, null);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
