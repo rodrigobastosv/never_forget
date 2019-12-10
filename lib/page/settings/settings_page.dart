@@ -44,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   tiles: [
                     SettingsTile(
                       title: 'Idioma',
-                      subtitle: pickedPreferences.languageId.toString(),
+                      subtitle: 'Português',
                       leading: Icon(Icons.language),
                     ),
                   ],

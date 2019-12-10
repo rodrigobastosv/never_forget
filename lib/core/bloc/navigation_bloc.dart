@@ -1,10 +1,10 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:never_forget/enum/page.dart';
-import 'package:never_forget/page/reminders_calendar_page.dart';
+import 'package:never_forget/page/reminders_calendar/reminders_calendar_page.dart';
 import 'package:never_forget/page/reminders_list/reminders_list_page.dart';
 import 'package:never_forget/page/save_reminder/save_reminder_page.dart';
-import 'package:never_forget/page/settings_page.dart';
+import 'package:never_forget/page/settings/settings_page.dart';
 import 'package:rxdart/rxdart.dart';
 
 class NavigationBloc implements Bloc {

@@ -27,14 +27,14 @@ void main() async {
 
 Future<Configurations> initPreferencesIfNecessary() async {
   final settingsService = SettingsService();
-  final settings = await settingsService.getSettings();
-  print(settings);
+  Configurations settings = await settingsService.getSettings();
   if (settings == null) {
     final firstConfig = Configurations();
     firstConfig.languageId = 1;
     firstConfig.hoursToNotificate = 7;
     firstConfig.darkMode = false;
     await settingsService.saveSettings(firstConfig);
+    settings = await settingsService.getSettings();
   }
   return settings;
 }

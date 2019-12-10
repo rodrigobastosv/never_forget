@@ -8,6 +8,7 @@ import 'package:never_forget/core/bloc/navigation_bloc.dart';
 import 'package:never_forget/core/service/notification_service.dart';
 
 import 'package:never_forget/core/service/reminder_service.dart';
+import 'package:never_forget/core/service/settings_service.dart';
 import 'package:never_forget/model/reminder.dart';
 import 'package:never_forget/ui/ui_constants.dart';
 
@@ -23,12 +24,14 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
   final _reminderService = ReminderService();
   final _formKey = GlobalKey<FormState>();
 
+  SettingsService _settingsService;
   NavigationBloc _navigationBloc;
   Reminder _reminder;
 
   @override
   void initState() {
     _navigationBloc = BlocProvider.of<NavigationBloc>(context);
+    _settingsService = SettingsService();
     _reminder = _navigationBloc.getData() != null
         ? _navigationBloc.getData() as Reminder
         : Reminder();
@@ -87,14 +90,14 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
             if (_reminder.key != null) {
               await NotificationService.cancelNotification(_reminder.notificationId);
             }
+            final settings = await _settingsService.getSettings();
             final notificationId =
                 // TODO(rodrigo): Criar lógica pra quando tiver asset mandar uma notificação com asset
                 await NotificationService.scheduleNotification(
                     title: _reminder.title,
                     body: _reminder.description,
-                    // TODO(rodrigo): Criar logica de pegar esse valor de uma configuração
                     notificationDate:
-                        _reminder.date.subtract(Duration(hours: 1)));
+                        _reminder.date.subtract(Duration(hours: settings.hoursToNotificate)));
             _reminder.notificationId = notificationId;
             await _reminderService.saveReminder(_reminder);
             if (_reminder.key != null) {
