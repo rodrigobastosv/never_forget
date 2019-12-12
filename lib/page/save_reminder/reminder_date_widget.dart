@@ -38,8 +38,9 @@ class _ReminderDateWidgetState extends State<ReminderDateWidget> {
                 maxTime: DateUtils.getMaxTime(),
                 onConfirm: (datePicked) {
                   widget.onConfirm(datePicked);
-                  setState(
-                      () => pickedDate = DateUtils.formatLocale(datePicked));
+                  setState(() {
+                    pickedDate = DateUtils.formatLocale(datePicked);
+                  });
                 },
                 currentTime: widget.initialDate != null
                     ? widget.initialDate
@@ -52,11 +53,9 @@ class _ReminderDateWidgetState extends State<ReminderDateWidget> {
                 Icon(Icons.date_range),
                 SizedBox(width: 8),
                 Text(
-                  'Data do Lembrete *',
-                  style: TextStyle(fontSize: 14),
+                  pickedDate.isNotEmpty ? pickedDate : 'Data do Lembrete *',
+                  style: TextStyle(fontSize: 16),
                 ),
-                SizedBox(width: 8),
-                pickedDate != null ? Text(pickedDate) : Container(),
               ],
             ),
           ),

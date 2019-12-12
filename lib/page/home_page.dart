@@ -24,67 +24,84 @@ class _HomePageState extends State<HomePage> {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return FutureBuilder(
-        future: _reminderService.openReminderBox(),
-        builder: (_, snapshot) {
-          if (snapshot.hasData) {
-            return StreamBuilder<Page>(
-              stream: navigationBloc.navigationStream,
-              builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  final page = snapshot.data;
-                  return SafeArea(
-                    child: Scaffold(
-                      body: navigationBloc.getPageWidget(page),
-                      bottomNavigationBar: BottomNavyBar(
-                        selectedIndex: page.index,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        showElevation: true,
-                        onItemSelected: (index) =>
-                            navigationBloc.navigateToPageByIndex(index),
-                        items: [
-                          BottomNavyBarItem(
-                            icon: Icon(Icons.add),
-                            title: Text('Adicionar'),
-                            activeColor: Theme.of(context).primaryColorDark,
-                            inactiveColor: Theme.of(context).primaryColor,
-                          ),
-                          BottomNavyBarItem(
-                            icon: Icon(Icons.format_list_numbered),
-                            title: Text('Lembretes'),
-                            activeColor: Theme.of(context).primaryColorDark,
-                            inactiveColor: Theme.of(context).primaryColor,
-                          ),
-                          BottomNavyBarItem(
-                            icon: Icon(Icons.calendar_today),
-                            title: Text('Calendário'),
-                            activeColor: Theme.of(context).primaryColorDark,
-                            inactiveColor: Theme.of(context).primaryColor,
-                          ),
-                          BottomNavyBarItem(
-                            icon: Icon(Icons.settings),
-                            title: Text('Preferências'),
-                            activeColor: Theme.of(context).primaryColorDark,
-                            inactiveColor: Theme.of(context).primaryColor,
-                          ),
-                        ],
+      future: _reminderService.openReminderBox(),
+      builder: (_, snapshot) {
+        if (snapshot.hasData) {
+          return StreamBuilder<Page>(
+            stream: navigationBloc.navigationStream,
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                final page = snapshot.data;
+                return SafeArea(
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text(
+                        'NeverForget',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
                       ),
+                      centerTitle: true,
+                      elevation: 0,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                     ),
-                  );
-                }
-                return Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
+                    body: navigationBloc.getPageWidget(page),
+                    bottomNavigationBar: BottomNavyBar(
+                      selectedIndex: page.index,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      showElevation: true,
+                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                      onItemSelected: (index) =>
+                          navigationBloc.navigateToPageByIndex(index),
+                      items: [
+                        _buildBottomNavBarItem(
+                          iconData: Icons.add,
+                          title: 'Adicionar',
+                        ),
+                        _buildBottomNavBarItem(
+                          iconData: Icons.format_list_numbered,
+                          title: 'Lembretes',
+                        ),
+                        _buildBottomNavBarItem(
+                          iconData: Icons.calendar_today,
+                          title: 'Calendário',
+                        ),
+                        _buildBottomNavBarItem(
+                          iconData: Icons.settings,
+                          title: 'Preferências',
+                        ),
+                      ],
+                    ),
                   ),
                 );
-              },
-            );
-          } else {
-            return Container(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        });
+              }
+              return Container(
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          );
+        } else {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  BottomNavyBarItem _buildBottomNavBarItem({IconData iconData, String title}) {
+    return BottomNavyBarItem(
+      icon: Icon(iconData),
+      title: Text(title),
+      activeColor: Theme.of(context).primaryColorDark,
+      inactiveColor: Theme.of(context).primaryColor,
+    );
   }
 }

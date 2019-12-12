@@ -45,12 +45,11 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 18),
             ReminderDateWidget(_reminder.date, onConfirm: _onConfirmDate),
             Form(
               key: _formKey,
               child: Padding(
-                padding: const EdgeInsets.all(18),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: <Widget>[
                     GGOutlinedTextFormField(
@@ -75,6 +74,7 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                     formVerticalSeparator,
                     formVerticalSeparator,
                     AddImageContainer(_reminder.assetImage, onPickImage: _onPickImage),
+                    formVerticalSeparator,
                   ],
                 ),
               ),

@@ -10,7 +10,7 @@ final ThemeData nfLightTheme = ThemeData(
   accentColor: Color(0xffffc107),
   accentColorBrightness: Brightness.light,
   canvasColor: Color(0xfffafafa),
-  scaffoldBackgroundColor: Color(0xfffafafa),
+  scaffoldBackgroundColor: Colors.amber[50], //Color(0xfffafafa),
   bottomAppBarColor: Color(0xffffffff),
   cardColor: Color(0xffffffff),
   dividerColor: Color(0x1f000000),

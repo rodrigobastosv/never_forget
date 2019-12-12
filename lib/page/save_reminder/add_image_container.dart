@@ -33,11 +33,14 @@ class _AddImageContainerState extends State<AddImageContainer> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 3,
+      elevation: 0,
+      color: Theme.of(context).primaryColorLight,
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(
           color: Theme.of(context).primaryColor,
-          width: 2,
+          width: 1,
         ),
       ),
       child: InkWell(
