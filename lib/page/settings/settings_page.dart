@@ -53,7 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: 'Notificações',
                   tiles: [
                     SettingsTile(
-                      title: 'Horas de antecedência para notificar',
+                      title: 'Horas de antecedência para notificar (para notificações sem repetição)',
                       subtitle:
                       '${pickedPreferences.hoursToNotificate == 1 ? '1 hora' : '${pickedPreferences.hoursToNotificate} horas'}',
                       leading: Icon(Icons.timer),

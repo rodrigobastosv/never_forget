@@ -13,18 +13,20 @@ dependencies:
     sdk: flutter
 
   # Core
-  intl: ^0.15.8
+  intl: ^0.16.0
   hive: ^1.1.1
   hive_flutter: ^0.2.1
   flutter_local_notifications: ^0.8.4+3
   rxdart: ^0.22.6
   bloc_provider: ^0.6.2+2
   shared_preferences: ^0.5.4+8
+  find_dropdown: ^0.1.7+1
 
   # Util
   path_provider: ^1.3.0
   image_picker: ^0.6.2+1
   numberpicker: ^1.1.0
+  day_selector: ^1.0.0
 
   # UI
   cupertino_icons: ^0.1.2

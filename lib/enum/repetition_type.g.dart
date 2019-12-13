@@ -15,9 +15,7 @@ class RepetitionTypeAdapter extends TypeAdapter<RepetitionType> {
       case 1:
         return RepetitionType.daily;
       case 2:
-        return RepetitionType.monthly;
-      case 3:
-        return RepetitionType.yearly;
+        return RepetitionType.weekly;
       default:
         return null;
     }
@@ -32,11 +30,8 @@ class RepetitionTypeAdapter extends TypeAdapter<RepetitionType> {
       case RepetitionType.daily:
         writer.writeByte(1);
         break;
-      case RepetitionType.monthly:
+      case RepetitionType.weekly:
         writer.writeByte(2);
-        break;
-      case RepetitionType.yearly:
-        writer.writeByte(3);
         break;
     }
   }
