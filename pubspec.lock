@@ -28,7 +28,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "2.3.0"
   avataaar_image:
     dependency: transitive
     description:
@@ -195,7 +195,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "7409b227b899484e95f2229a9136d3de04808e09"
+      resolved-ref: "0e3c6e928d6ac5d0c52ab1cb147f170e334c7556"
       url: "git://github.com/rodrigobastosv/datetime_picker_formfield.git"
     source: git
     version: "1.0.0-pre.5"
@@ -252,7 +252,7 @@ packages:
       name: flutter_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.8"
+    version: "1.3.1"
   flutter_icons:
     dependency: "direct main"
     description:
@@ -278,7 +278,7 @@ packages:
       name: flutter_spinkit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.1.1+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -302,8 +302,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: "4cf3f87b806dc89b56d2a5f3005989eae44bd9f1"
+      ref: develop
+      resolved-ref: "3eb4f7eda9161f2f7c1a480f75227957944d2570"
       url: "git://github.com/rodrigobastosv/gg_flutter_components.git"
     source: git
     version: "0.0.1"
@@ -390,7 +390,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.0"
+    version: "0.15.8"
   io:
     dependency: transitive
     description:
@@ -509,7 +509,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.8.0+1"
   platform:
     dependency: transitive
     description:
@@ -551,7 +551,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2+1"
+    version: "2.0.5"
   rxdart:
     dependency: "direct main"
     description:
