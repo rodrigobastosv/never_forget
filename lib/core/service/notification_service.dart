@@ -31,12 +31,16 @@ class NotificationService {
     String groupKey = 'GROUP-KEY',
     Importance importance = Importance.Max,
     Priority priority = Priority.High,
+    AndroidNotificationStyle style = AndroidNotificationStyle.Default,
+    StyleInformation styleInformation,
   }) {
     final androidPlatformChannelSpecifics = AndroidNotificationDetails(
         channelId, channelName, channelDescription,
         importance: importance,
         priority: priority,
         groupKey: groupKey,
+        style: style,
+        styleInformation: styleInformation,
         ticker: 'ticker');
 
     return NotificationDetails(androidPlatformChannelSpecifics, null);
@@ -179,6 +183,44 @@ class NotificationService {
       priority: priority,
     );
 
+    final id = _getRandomId();
+    await flutterLocalNotificationsPlugin.schedule(
+        id, title, body, notificationDate, notificationDetails,
+        payload: payload);
+    return id;
+  }
+
+  static Future<int> scheduleNotificationWithAsset(
+      {String channelId = 'ID',
+        String channelName = 'NAME',
+        String channelDescription = 'DESCRIPTION',
+        Importance importance = Importance.Max,
+        Priority priority = Priority.High,
+        @required String title,
+        @required String filePath,
+        @required DateTime notificationDate,
+        String body,
+        String payload}) async {
+    final styleInfo = BigPictureStyleInformation(
+      filePath,
+      BitmapSource.FilePath,
+      largeIcon: filePath,
+      largeIconBitmapSource: BitmapSource.FilePath,
+      contentTitle: title,
+      htmlFormatContentTitle: false,
+      summaryText: body,
+      htmlFormatSummaryText: false,
+    );
+
+    final notificationDetails = _getNotificationDetails(
+      channelId: channelId,
+      channelName: channelName,
+      channelDescription: channelDescription,
+      importance: importance,
+      priority: priority,
+      style: AndroidNotificationStyle.BigPicture,
+      styleInformation: styleInfo,
+    );
     final id = _getRandomId();
     await flutterLocalNotificationsPlugin.schedule(
         id, title, body, notificationDate, notificationDetails,

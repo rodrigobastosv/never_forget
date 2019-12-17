@@ -21,7 +21,6 @@ class ReminderTile extends StatelessWidget {
       subtitle: Text(DateUtils.formatLocale(reminder.date)),
       onTap: () {
         menuBloc.pickMenu(Menu()..title = 'Salvar Lembrete');
-        print(reminder);
         navigationBloc.pushData(reminder);
         navigationBloc.navigateToPage(Page.SaveReminder);
       },

@@ -120,11 +120,17 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
 
       int notificationId;
       if (_reminder.repetitionType == RepetitionType.onetimeOnly) {
-        notificationId = await _scheduleOnetimeOnlyNotification(settings);
+        if (_reminder.assetImage != null) {
+          notificationId = await _scheduleOnetimeOnlyNotificationWithAsset(settings);
+        } else {
+          notificationId = await _scheduleOnetimeOnlyNotification(settings);
+        }
       } else {
         notificationId = await _showPeriodicNotification(settings);
       }
+
       _reminder.notificationId = notificationId;
+
       await _reminderService.saveReminder(_reminder);
       GGSnackbar.success(
         message: 'Lembrete salvo com sucesso',
@@ -137,6 +143,17 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
     return await NotificationService.scheduleNotification(
       title: _reminder.title,
       body: _reminder.description,
+      notificationDate: _reminder.date.subtract(
+        Duration(hours: settings.hoursToNotificate),
+      ),
+    );
+  }
+
+  Future<int> _scheduleOnetimeOnlyNotificationWithAsset(Configurations settings) async {
+    return await NotificationService.scheduleNotificationWithAsset(
+      title: _reminder.title,
+      body: _reminder.description,
+      filePath: _reminder.assetImage,
       notificationDate: _reminder.date.subtract(
         Duration(hours: settings.hoursToNotificate),
       ),
