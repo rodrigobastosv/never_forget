@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:never_forget/core/service/reminder_service.dart';
+import 'package:never_forget/core/locator.dart';
 import 'package:never_forget/model/reminder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -14,7 +14,7 @@ class RemindersCalendarPage extends StatefulWidget {
 }
 
 class _RemindersCalendarPageState extends State<RemindersCalendarPage> {
-  final _reminderService = ReminderService();
+  final _reminderService = getReminderService();
   final dateFormat = DateFormat('dd/MM/yyyy');
 
   List<Reminder> _remindersOfTheSelectedDay;

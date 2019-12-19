@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:never_forget/core/service/reminder_service.dart';
+import 'package:never_forget/core/locator.dart';
 
 import 'reminder_tile.dart';
 
 class RemindersListPage extends StatelessWidget {
-  final _reminderService = ReminderService();
+  final _reminderService = getReminderService();
 
   @override
   Widget build(BuildContext context) {

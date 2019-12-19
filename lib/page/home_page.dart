@@ -2,6 +2,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:never_forget/core/bloc/navigation_bloc.dart';
+import 'package:never_forget/core/locator.dart';
 import 'package:never_forget/core/service/reminder_service.dart';
 import 'package:never_forget/enum/page.dart';
 
@@ -11,13 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ReminderService _reminderService;
-
-  @override
-  void initState() {
-    _reminderService = ReminderService();
-    super.initState();
-  }
+  ReminderService _reminderService = getReminderService();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +48,8 @@ class _HomePageState extends State<HomePage> {
                       selectedIndex: page.index,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       showElevation: true,
-                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       onItemSelected: (index) =>
                           navigationBloc.navigateToPageByIndex(index),
                       items: [

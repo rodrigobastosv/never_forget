@@ -1,10 +1,11 @@
 import 'package:bloc_provider/bloc_provider.dart';
-import 'package:never_forget/core/service/settings_service.dart';
 import 'package:never_forget/model/configurations.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../locator.dart';
+
 class SettingsBloc implements Bloc {
-  final settingsService = SettingsService();
+  final settingsService = getSettingsService();
   final settingsController = BehaviorSubject<Configurations>.seeded(null);
 
   Stream<Configurations> get settingsStream => settingsController.stream;

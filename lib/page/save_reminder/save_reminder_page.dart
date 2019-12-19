@@ -7,9 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:gg_flutter_components/gg_flutter_components.dart';
 import 'package:gg_flutter_components/gg_snackbar.dart';
 import 'package:never_forget/core/bloc/navigation_bloc.dart';
+import 'package:never_forget/core/locator.dart';
 import 'package:never_forget/core/service/notification_service.dart';
-
-import 'package:never_forget/core/service/reminder_service.dart';
 import 'package:never_forget/core/service/settings_service.dart';
 import 'package:never_forget/enum/repetition_type.dart';
 import 'package:never_forget/model/configurations.dart';
@@ -25,7 +24,7 @@ class SaveReminderPage extends StatefulWidget {
 }
 
 class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
-  final _reminderService = ReminderService();
+  final _reminderService = getReminderService();
   final _formKey = GlobalKey<FormState>();
 
   SettingsService _settingsService;
@@ -35,7 +34,7 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
   @override
   void initState() {
     _navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    _settingsService = SettingsService();
+    _settingsService = getSettingsService();
     if (_navigationBloc.getData() != null) {
       _reminder = _navigationBloc.getData() as Reminder;
     } else {
@@ -121,7 +120,8 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
       int notificationId;
       if (_reminder.repetitionType == RepetitionType.onetimeOnly) {
         if (_reminder.assetImage != null) {
-          notificationId = await _scheduleOnetimeOnlyNotificationWithAsset(settings);
+          notificationId =
+              await _scheduleOnetimeOnlyNotificationWithAsset(settings);
         } else {
           notificationId = await _scheduleOnetimeOnlyNotification(settings);
         }
@@ -149,7 +149,8 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
     );
   }
 
-  Future<int> _scheduleOnetimeOnlyNotificationWithAsset(Configurations settings) async {
+  Future<int> _scheduleOnetimeOnlyNotificationWithAsset(
+      Configurations settings) async {
     return await NotificationService.scheduleNotificationWithAsset(
       title: _reminder.title,
       body: _reminder.description,
