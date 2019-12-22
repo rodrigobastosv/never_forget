@@ -2,6 +2,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:never_forget/core/bloc/settings_bloc.dart';
+import 'package:never_forget/core/locator.dart';
 import 'package:never_forget/core/service/settings_service.dart';
 import 'package:never_forget/model/configurations.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -19,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    settingsService = SettingsService();
+    settingsService = getSettingsService();
     settingsBloc = BlocProvider.of<SettingsBloc>(context);
     configsFuture = settingsService.getSettings();
     super.initState();
@@ -53,9 +54,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: 'Notificações',
                   tiles: [
                     SettingsTile(
-                      title: 'Horas de antecedência para notificar (para notificações sem repetição)',
+                      title:
+                          'Horas de antecedência para notificar (para notificações sem repetição)',
                       subtitle:
-                      '${pickedPreferences.hoursToNotificate == 1 ? '1 hora' : '${pickedPreferences.hoursToNotificate} horas'}',
+                          '${pickedPreferences.hoursToNotificate == 1 ? '1 hora' : '${pickedPreferences.hoursToNotificate} horas'}',
                       leading: Icon(Icons.timer),
                       onTap: () async {
                         final pickedValue = await showDialog(
@@ -63,12 +65,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           builder: (_) => NumberPickerDialog.integer(
                             minValue: 1,
                             maxValue: 10,
-                            initialIntegerValue: pickedPreferences.hoursToNotificate,
+                            initialIntegerValue:
+                                pickedPreferences.hoursToNotificate,
                           ),
                         );
                         if (pickedValue != null) {
-                          settingsBloc
-                              .updateHoursToNotificate(pickedValue);
+                          settingsBloc.updateHoursToNotificate(pickedValue);
                         }
                       },
                     ),
