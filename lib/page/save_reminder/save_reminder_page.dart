@@ -11,15 +11,20 @@ import 'package:never_forget/core/service/notification_service.dart';
 
 import 'package:never_forget/core/service/reminder_service.dart';
 import 'package:never_forget/core/service/settings_service.dart';
+import 'package:never_forget/enum/page.dart';
 import 'package:never_forget/enum/repetition_type.dart';
 import 'package:never_forget/model/configurations.dart';
 import 'package:never_forget/model/reminder.dart';
 import 'package:never_forget/ui/ui_constants.dart';
+import 'package:never_forget/widget/nf_scaffold.dart';
 
 import 'add_image_container.dart';
 import 'reminder_date_widget.dart';
 
 class SaveReminderPage extends StatefulWidget {
+  const SaveReminderPage(this.page);
+  final Page page;
+
   @override
   _SaveReminderPageState createState() => _SaveReminderPageState();
 }
@@ -47,10 +52,30 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return NFScaffold(
+      selectedIndex: widget.page.index,
+      actions: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: 10,
+          ),
+          child: RaisedButton.icon(
+            icon: Icon(Icons.save, size: 19),
+            label: Text('Confirmar'),
+            color: Colors.green,
+            textColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            onPressed: _saveReminder,
+          ),
+        ),
+      ],
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            formVerticalSeparator,
             ReminderDateWidget(_reminder.date, onConfirm: _onConfirmDate),
             Form(
               key: _formKey,
@@ -84,7 +109,7 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                     formVerticalSeparator,
                     FindDropdown(
                       items: getAllRepetiton(),
-                      label: "Tipo de Repetção",
+                      label: "Tipo de Repetição",
                       onChanged: (String repetiton) =>
                           _reminder.repetitionType = getRepetiton(repetiton),
                       selectedItem:
@@ -96,14 +121,6 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
               ),
             )
           ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(top: 60),
-        child: FloatingActionButton(
-          onPressed: _saveReminder,
-          child: Icon(Icons.save),
         ),
       ),
     );
@@ -121,7 +138,8 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
       int notificationId;
       if (_reminder.repetitionType == RepetitionType.onetimeOnly) {
         if (_reminder.assetImage != null) {
-          notificationId = await _scheduleOnetimeOnlyNotificationWithAsset(settings);
+          notificationId =
+              await _scheduleOnetimeOnlyNotificationWithAsset(settings);
         } else {
           notificationId = await _scheduleOnetimeOnlyNotification(settings);
         }
@@ -149,7 +167,8 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
     );
   }
 
-  Future<int> _scheduleOnetimeOnlyNotificationWithAsset(Configurations settings) async {
+  Future<int> _scheduleOnetimeOnlyNotificationWithAsset(
+      Configurations settings) async {
     return await NotificationService.scheduleNotificationWithAsset(
       title: _reminder.title,
       body: _reminder.description,

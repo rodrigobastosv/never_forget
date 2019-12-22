@@ -59,7 +59,7 @@ class NavigationBloc implements Bloc {
       case Page.RemindersList:
         return RemindersListPage();
       case Page.SaveReminder:
-        return SaveReminderPage();
+        return SaveReminderPage(page);
       case Page.Settings:
         return SettingsPage();
     }
