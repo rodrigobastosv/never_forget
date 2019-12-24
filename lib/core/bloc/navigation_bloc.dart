@@ -55,15 +55,15 @@ class NavigationBloc implements Bloc {
   Widget getPageWidget(Page page) {
     switch (page) {
       case Page.RemindersCalendar:
-        return RemindersCalendarPage();
+        return RemindersCalendarPage(page);
       case Page.RemindersList:
-        return RemindersListPage();
+        return RemindersListPage(page);
       case Page.SaveReminder:
         return SaveReminderPage(page);
       case Page.Settings:
-        return SettingsPage();
+        return SettingsPage(page);
     }
-    return RemindersCalendarPage();
+    return RemindersCalendarPage(page);
   }
 
   dynamic getData() {

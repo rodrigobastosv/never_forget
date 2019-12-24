@@ -33,16 +33,10 @@ class _AddImageContainerState extends State<AddImageContainer> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 0,
-      color: Theme.of(context).primaryColorLight,
+      elevation: 3,
+      color: Colors.grey[200],
       clipBehavior: Clip.antiAlias,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 1,
-        ),
-      ),
+      borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: _getImage,
         splashColor: Theme.of(context).primaryColor,

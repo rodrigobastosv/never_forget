@@ -24,7 +24,6 @@ class NFScaffold extends StatelessWidget {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.5,

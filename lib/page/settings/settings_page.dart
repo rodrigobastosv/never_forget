@@ -4,11 +4,16 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:never_forget/core/bloc/settings_bloc.dart';
 import 'package:never_forget/core/locator.dart';
 import 'package:never_forget/core/service/settings_service.dart';
+import 'package:never_forget/enum/page.dart';
 import 'package:never_forget/model/configurations.dart';
+import 'package:never_forget/widget/nf_scaffold.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage(this.page);
+  final Page page;
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -33,11 +38,9 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (_, snapshot) {
         if (snapshot.hasData) {
           final pickedPreferences = snapshot.data;
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Preferências'),
-              centerTitle: true,
-            ),
+          return NFScaffold(
+            selectedIndex: widget.page.index,
+            title: 'Preferências',
             body: SettingsList(
               sections: [
                 SettingsSection(

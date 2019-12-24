@@ -54,18 +54,19 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
     return NFScaffold(
       selectedIndex: widget.page.index,
       actions: <Widget>[
-        Padding(
+        Container(
+          width: 56,
           padding: const EdgeInsets.symmetric(
             horizontal: 8,
-            vertical: 10,
+            vertical: 8,
           ),
-          child: RaisedButton.icon(
-            icon: Icon(Icons.save, size: 19),
-            label: Text('Confirmar'),
+          child: RaisedButton(
+            child: Icon(Icons.done, size: 28),
             color: Colors.green,
             textColor: Colors.white,
+            padding: EdgeInsets.all(0),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(30),
             ),
             onPressed: _saveReminder,
           ),
@@ -81,6 +82,7 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     GGOutlinedTextFormField(
                       labelText: 'Título *',
@@ -102,19 +104,46 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                     ),
                     formVerticalSeparator,
                     formVerticalSeparator,
-                    formVerticalSeparator,
-                    AddImageContainer(_reminder.assetImage,
-                        onPickImage: _onPickImage),
-                    formVerticalSeparator,
                     FindDropdown(
+                      label: 'Tipo de Repetição',
+                      labelStyle: TextStyle(fontSize: 12),
+                      showSearchBox: false,
                       items: getAllRepetiton(),
-                      label: "Tipo de Repetição",
-                      onChanged: (String repetiton) =>
-                          _reminder.repetitionType = getRepetiton(repetiton),
                       selectedItem:
                           getRepetitonString(_reminder.repetitionType),
-                      showSearchBox: false,
+                      onChanged: (String repetiton) =>
+                          _reminder.repetitionType = getRepetiton(repetiton),
+                      dropdownBuilder: (
+                        BuildContext context,
+                        String repetitionType,
+                      ) {
+                        return Container(
+                          width: 150,
+                          padding: const EdgeInsets.only(bottom: 14),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                width: 0.5,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          child: Text(repetitionType ?? ''),
+                        );
+                      },
                     ),
+                    formVerticalSeparator,
+                    formVerticalSeparator,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        AddImageContainer(
+                          _reminder.assetImage,
+                          onPickImage: _onPickImage,
+                        ),
+                      ],
+                    ),
+                    formVerticalSeparator,
                   ],
                 ),
               ),
