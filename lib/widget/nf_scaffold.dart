@@ -43,11 +43,11 @@ class NFScaffold extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           elevation: 1,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(32),
           ),
           child: BottomNavyBar(
             selectedIndex: selectedIndex,
-            itemCornerRadius: 8,
+            itemCornerRadius: 24,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             showElevation: true,
             backgroundColor: Theme.of(context).primaryColorLight,

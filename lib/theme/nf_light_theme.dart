@@ -5,7 +5,7 @@ final ThemeData nfLightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: Color(0xffffc107),
   primaryColorBrightness: Brightness.light,
-  primaryColorLight: Color(0xffffecb3),
+  primaryColorLight: Colors.amber[50],
   primaryColorDark: Color(0xffffa000),
   accentColor: Color(0xffffc107),
   accentColorBrightness: Brightness.light,

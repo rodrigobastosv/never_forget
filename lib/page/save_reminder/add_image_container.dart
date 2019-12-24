@@ -34,12 +34,12 @@ class _AddImageContainerState extends State<AddImageContainer> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 3,
-      color: Colors.grey[200],
+      color: Colors.grey[100],
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         onTap: _getImage,
-        splashColor: Theme.of(context).primaryColor,
+        splashColor: Theme.of(context).primaryColorLight,
         child: Container(
           width: 200,
           height: 200,

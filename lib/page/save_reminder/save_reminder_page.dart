@@ -75,8 +75,6 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            formVerticalSeparator,
-            ReminderDateWidget(_reminder.date, onConfirm: _onConfirmDate),
             Form(
               key: _formKey,
               child: Padding(
@@ -104,34 +102,49 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                     ),
                     formVerticalSeparator,
                     formVerticalSeparator,
-                    FindDropdown(
-                      label: 'Tipo de Repetição',
-                      labelStyle: TextStyle(fontSize: 12),
-                      showSearchBox: false,
-                      items: getAllRepetiton(),
-                      selectedItem:
-                          getRepetitonString(_reminder.repetitionType),
-                      onChanged: (String repetiton) =>
-                          _reminder.repetitionType = getRepetiton(repetiton),
-                      dropdownBuilder: (
-                        BuildContext context,
-                        String repetitionType,
-                      ) {
-                        return Container(
-                          width: 150,
-                          padding: const EdgeInsets.only(bottom: 14),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 0.5,
-                                color: Colors.black,
+                    Wrap(
+                      spacing: 16,
+                      children: <Widget>[
+                        ReminderDateWidget(
+                          _reminder.date,
+                          onConfirm: _onConfirmDate,
+                        ),
+                        FindDropdown(
+                          label: 'Tipo de Repetição',
+                          labelStyle: TextStyle(fontSize: 12),
+                          showSearchBox: false,
+                          items: getAllRepetiton(),
+                          selectedItem:
+                              getRepetitonString(_reminder.repetitionType),
+                          onChanged: (String repetiton) => _reminder
+                              .repetitionType = getRepetiton(repetiton),
+                          dropdownBuilder: (
+                            BuildContext context,
+                            String repetitionType,
+                          ) {
+                            return Container(
+                              width: 120,
+                              padding: const EdgeInsets.only(bottom: 11),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 0.5,
+                                    color: Colors.black,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          child: Text(repetitionType ?? ''),
-                        );
-                      },
+                              child: Text(
+                                repetitionType ?? '',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
+                    formVerticalSeparator,
                     formVerticalSeparator,
                     formVerticalSeparator,
                     Row(
