@@ -32,37 +32,48 @@ class _AddImageContainerState extends State<AddImageContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 3,
-      color: Colors.grey[100],
-      clipBehavior: Clip.antiAlias,
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        onTap: _getImage,
-        splashColor: Theme.of(context).primaryColorLight,
-        child: Container(
-          width: 200,
-          height: 200,
-          child: _image == null
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Icon(Icons.image, size: 56),
-                    const SizedBox(height: 4),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        'Clique aqui para adicionar uma imagem',
-                        style: TextStyle(
-                          fontSize: 14,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            blurRadius: 8,
+            color: Colors.grey[300],
+            offset: Offset(0, 0.4),
+          ),
+        ],
+      ),
+      child: Material(
+        clipBehavior: Clip.antiAlias,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          onTap: _getImage,
+          splashColor: Theme.of(context).primaryColorLight,
+          child: Container(
+            width: 200,
+            height: 200,
+            child: _image == null
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Icon(Icons.image, size: 56),
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          'Clique aqui para adicionar uma imagem',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ],
-                )
-              : Image.file(_image, fit: BoxFit.cover),
+                    ],
+                  )
+                : Image.file(_image, fit: BoxFit.cover),
+          ),
         ),
       ),
     );

@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-final formVerticalSeparator = SizedBox(height: 12);
+final formVerticalSeparator = SizedBox(height: 16);

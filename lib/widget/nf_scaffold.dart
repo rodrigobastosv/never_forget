@@ -25,8 +25,6 @@ class NFScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        elevation: 0.5,
         title: Text(
           title,
           style: TextStyle(

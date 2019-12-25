@@ -45,23 +45,44 @@ class _ReminderDateWidgetState extends State<ReminderDateWidget> {
         );
       },
       child: Container(
-        width: 180,
-        padding: const EdgeInsets.only(top: 16, bottom: 9),
+        width: 165,
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              width: 0.5,
-              color: Colors.black,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              blurRadius: 8,
+              color: Colors.grey[300],
+              offset: Offset(0, 0.4),
             ),
-          ),
+          ],
         ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Icon(Icons.date_range),
-            SizedBox(width: 8),
-            Text(
-              pickedDate.isNotEmpty ? pickedDate : 'Data do Lembrete *',
-              style: TextStyle(fontSize: 16),
+            if (pickedDate.isNotEmpty)
+              Text(
+                'Data do Lembrete *',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[600],
+                ),
+              ),
+            Padding(
+              padding: pickedDate.isNotEmpty
+                  ? EdgeInsets.only(top: 2)
+                  : EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                pickedDate.isNotEmpty ? pickedDate : 'Data do Lembrete *',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color:
+                      pickedDate.isNotEmpty ? Colors.black : Colors.grey[600],
+                ),
+              ),
             ),
           ],
         ),

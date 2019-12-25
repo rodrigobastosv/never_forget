@@ -17,34 +17,35 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
 
-    return FutureBuilder(
-      future: _reminderService.openReminderBox(),
-      builder: (_, snapshot) {
-        if (snapshot.hasData) {
-          return StreamBuilder<Page>(
-            stream: navigationBloc.navigationStream,
-            builder: (_, snapshot) {
-              if (snapshot.hasData) {
-                final page = snapshot.data;
-                return SafeArea(
-                  child: navigationBloc.getPageWidget(page)
+    return SafeArea(
+      top: false,
+      child: FutureBuilder(
+        future: _reminderService.openReminderBox(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return StreamBuilder<Page>(
+              stream: navigationBloc.navigationStream,
+              builder: (_, snapshot) {
+                if (snapshot.hasData) {
+                  final page = snapshot.data;
+                  return navigationBloc.getPageWidget(page);
+                }
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
-              }
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          );
-        } else {
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+              },
+            );
+          } else {
+            return Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }

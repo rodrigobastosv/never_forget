@@ -4,6 +4,7 @@ import 'package:bloc_provider/bloc_provider.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:gg_flutter_components/form/gg_text_form_field_shadowed.dart';
 import 'package:gg_flutter_components/gg_flutter_components.dart';
 import 'package:gg_flutter_components/gg_snackbar.dart';
 import 'package:never_forget/core/bloc/navigation_bloc.dart';
@@ -82,7 +83,8 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    GGOutlinedTextFormField(
+                    formVerticalSeparator,
+                    GGTextFormFieldShadowed(
                       labelText: 'Título *',
                       textInputAction: TextInputAction.done,
                       initialValue: _reminder.title,
@@ -90,28 +92,26 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                       validator: emptyValidator,
                     ),
                     formVerticalSeparator,
-                    GGOutlinedTextFormField(
+                    GGTextFormFieldShadowed(
                       labelText: 'Descrição *',
+                      minLines: 3,
+                      maxLines: 5,
                       textInputAction: TextInputAction.done,
                       initialValue: _reminder.description,
                       onSaved: (description) =>
                           _reminder.description = description,
                       validator: emptyValidator,
-                      minLines: 3,
-                      maxLines: 5,
                     ),
-                    formVerticalSeparator,
                     formVerticalSeparator,
                     Wrap(
                       spacing: 16,
+                      runSpacing: 16,
                       children: <Widget>[
                         ReminderDateWidget(
                           _reminder.date,
                           onConfirm: _onConfirmDate,
                         ),
                         FindDropdown(
-                          label: 'Tipo de Repetição',
-                          labelStyle: TextStyle(fontSize: 12),
                           showSearchBox: false,
                           items: getAllRepetiton(),
                           selectedItem:
@@ -123,28 +123,43 @@ class _SaveReminderPageState extends State<SaveReminderPage> with GGValidators {
                             String repetitionType,
                           ) {
                             return Container(
-                              width: 120,
-                              padding: const EdgeInsets.only(bottom: 11),
+                              width: 140,
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    width: 0.5,
-                                    color: Colors.black,
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    blurRadius: 8,
+                                    color: Colors.grey[300],
+                                    offset: Offset(0, 0.4),
                                   ),
-                                ),
+                                ],
                               ),
-                              child: Text(
-                                repetitionType ?? '',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    'Tipo de Repetição',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    repetitionType ?? '',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           },
                         ),
                       ],
                     ),
-                    formVerticalSeparator,
                     formVerticalSeparator,
                     formVerticalSeparator,
                     Row(
