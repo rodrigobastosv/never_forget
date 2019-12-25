@@ -37,18 +37,24 @@ class NFScaffold extends StatelessWidget {
       body: body,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-        child: Material(
-          clipBehavior: Clip.antiAlias,
-          elevation: 1,
-          shape: RoundedRectangleBorder(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColorLight,
             borderRadius: BorderRadius.circular(32),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                offset: Offset(0, 1.5),
+                blurRadius: 2,
+                color: Colors.grey,
+              ),
+            ],
           ),
           child: BottomNavyBar(
             selectedIndex: selectedIndex,
-            itemCornerRadius: 24,
+            itemCornerRadius: 32,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            showElevation: true,
-            backgroundColor: Theme.of(context).primaryColorLight,
+            showElevation: false,
+            backgroundColor: Colors.transparent,
             onItemSelected: (index) =>
                 navigationBloc.navigateToPageByIndex(index),
             items: [
