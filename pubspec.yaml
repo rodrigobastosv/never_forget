@@ -14,6 +14,7 @@ dependencies:
 
   # Core
   intl: ^0.15.8
+  catcher: ^0.2.7
   hive: ^1.1.1
   hive_flutter: ^0.2.1
   flutter_local_notifications: ^0.8.4+3
@@ -40,7 +41,7 @@ dependencies:
   gg_flutter_components:
     git:
       url: git://github.com/rodrigobastosv/gg_flutter_components.git
-      ref: develop
+      ref: master
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:catcher/core/catcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
@@ -11,6 +12,7 @@ import 'package:never_forget/theme/nf_dark_theme.dart';
 import 'package:never_forget/theme/nf_light_theme.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'core/error/errors.dart';
 import 'core/locator.dart';
 import 'core/service/notification_service.dart';
 import 'enum/repetition_type.dart';
@@ -23,7 +25,7 @@ void main() async {
   NotificationService.setupLocalNotification();
   initSingletons();
   initialPrefs = await initPreferencesIfNecessary();
-  runApp(App());
+  Catcher(App(), debugConfig: debugOptions, releaseConfig: releaseOptions);
 }
 
 Future<Configurations> initPreferencesIfNecessary() async {
@@ -83,6 +85,7 @@ class App extends StatelessWidget {
                       },
                     ),
                     debugShowCheckedModeBanner: false,
+                    navigatorKey: Catcher.navigatorKey,
                   );
                 }),
           ),
