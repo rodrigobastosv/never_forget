@@ -13,8 +13,7 @@ class RemindersList extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Theme.of(context).accentColor,
-        border: Border.all(color: Theme.of(context).accentColor),
+        color: Theme.of(context).accentColor.withOpacity(.8),
         borderRadius: BorderRadius.circular(24),
       ),
       child: _buildContent(),
@@ -26,17 +25,20 @@ class RemindersList extends StatelessWidget {
       return ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 8),
         itemBuilder: (_, i) => ReminderTile(reminders[i]),
-        separatorBuilder: (_, __) => Divider(),
+        separatorBuilder: (_, __) => Divider(height: 1),
         itemCount: reminders.length,
       );
     }
     return Center(
-      child: Text(
-        'Nenhum lembrete para a data selecionada.',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Text(
+          'Nenhum lembrete para a data selecionada.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
         ),
       ),
     );

@@ -46,15 +46,12 @@ class _RemindersCalendarPageState extends State<RemindersCalendarPage> {
             },
             headerStyle: HeaderStyle(
               headerPadding: null,
-              formatButtonTextStyle: TextStyle(color: Colors.grey[600]),
               formatButtonDecoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey),
-                  bottom: BorderSide(color: Colors.grey),
-                  left: BorderSide(color: Colors.grey),
-                  right: BorderSide(color: Colors.grey),
+                color: Theme.of(context).primaryColor.withOpacity(0.3),
+                border: Border.all(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
                 ),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(16),
               ),
               titleTextStyle: TextStyle(
                 fontSize: 18,

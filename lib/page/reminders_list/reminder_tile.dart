@@ -17,8 +17,21 @@ class ReminderTile extends StatelessWidget {
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
     final menuBloc = BlocProvider.of<MenuBloc>(context);
     return ListTile(
-      title: Text(reminder.title),
-      subtitle: Text(DateUtils.formatLocale(reminder.date)),
+      title: Text(
+        reminder.title,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+      ),
+      subtitle: Text(
+        DateUtils.formatLocale(reminder.date),
+        style: TextStyle(
+          fontSize: 13,
+          color: Colors.white,
+        ),
+      ),
       onTap: () {
         menuBloc.pickMenu(Menu()..title = 'Salvar Lembrete');
         navigationBloc.pushData(reminder);

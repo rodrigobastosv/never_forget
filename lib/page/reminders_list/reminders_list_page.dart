@@ -15,11 +15,18 @@ class RemindersListPage extends StatelessWidget {
     final reminders = _reminderService.getRemindersList();
     return NFScaffold(
       selectedIndex: page.index,
-      body: ListView.separated(
-        shrinkWrap: true,
-        itemCount: reminders.length,
-        itemBuilder: (_, i) => ReminderTile(reminders[i]),
-        separatorBuilder: (_, i) => Divider(),
+      body: Container(
+        margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).accentColor.withOpacity(.8),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: reminders.length,
+          itemBuilder: (_, i) => ReminderTile(reminders[i]),
+          separatorBuilder: (_, i) => Divider(height: 1),
+        ),
       ),
     );
   }

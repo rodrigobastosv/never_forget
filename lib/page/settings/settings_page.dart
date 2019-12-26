@@ -40,61 +40,70 @@ class _SettingsPageState extends State<SettingsPage> {
           final pickedPreferences = snapshot.data;
           return NFScaffold(
             selectedIndex: widget.page.index,
-            title: 'Preferências',
-            body: SettingsList(
-              sections: [
-                SettingsSection(
-                  title: 'Geral',
-                  tiles: [
-                    SettingsTile(
-                      title: 'Idioma',
-                      subtitle: 'Português',
-                      leading: Icon(Icons.language),
+            body: Container(
+              margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+              child: Material(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(24),
+                child: SettingsList(
+                  sections: [
+                    SettingsSection(
+                      title: 'Geral',
+                      tiles: [
+                        SettingsTile(
+                          title: 'Idioma',
+                          subtitle: 'Português',
+                          leading: Icon(Icons.language),
+                        ),
+                      ],
+                    ),
+                    SettingsSection(
+                      title: 'Notificações',
+                      tiles: [
+                        SettingsTile(
+                          title:
+                              'Horas de antecedência para notificar (para notificações sem repetição)',
+                          subtitle:
+                              '${pickedPreferences.hoursToNotificate == 1 ? '1 hora' : '${pickedPreferences.hoursToNotificate} horas'}',
+                          leading: Icon(Icons.timer),
+                          onTap: () async {
+                            final pickedValue = await showDialog(
+                              context: context,
+                              builder: (_) => NumberPickerDialog.integer(
+                                minValue: 1,
+                                maxValue: 10,
+                                initialIntegerValue:
+                                    pickedPreferences.hoursToNotificate,
+                              ),
+                            );
+                            if (pickedValue != null) {
+                              settingsBloc.updateHoursToNotificate(pickedValue);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    SettingsSection(
+                      title: 'Aparência',
+                      tiles: [
+                        SettingsTile.switchTile(
+                          title: 'Modo Escuro',
+                          leading: Icon(Feather.moon),
+                          switchValue: pickedPreferences.darkMode,
+                          onToggle: settingsBloc.updateDarkMode,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SettingsSection(
-                  title: 'Notificações',
-                  tiles: [
-                    SettingsTile(
-                      title:
-                          'Horas de antecedência para notificar (para notificações sem repetição)',
-                      subtitle:
-                          '${pickedPreferences.hoursToNotificate == 1 ? '1 hora' : '${pickedPreferences.hoursToNotificate} horas'}',
-                      leading: Icon(Icons.timer),
-                      onTap: () async {
-                        final pickedValue = await showDialog(
-                          context: context,
-                          builder: (_) => NumberPickerDialog.integer(
-                            minValue: 1,
-                            maxValue: 10,
-                            initialIntegerValue:
-                                pickedPreferences.hoursToNotificate,
-                          ),
-                        );
-                        if (pickedValue != null) {
-                          settingsBloc.updateHoursToNotificate(pickedValue);
-                        }
-                      },
-                    ),
-                  ],
-                ),
-                SettingsSection(
-                  title: 'Aparência',
-                  tiles: [
-                    SettingsTile.switchTile(
-                      title: 'Modo Escuro',
-                      leading: Icon(Feather.moon),
-                      switchValue: pickedPreferences.darkMode,
-                      onToggle: settingsBloc.updateDarkMode,
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           );
         } else {
-          return Text('a');
+          return NFScaffold(
+            selectedIndex: widget.page.index,
+            body: Center(child: CircularProgressIndicator()),
+          );
         }
       },
     );
