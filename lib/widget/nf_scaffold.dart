@@ -28,8 +28,9 @@ class NFScaffold extends StatelessWidget {
         title: Text(
           title,
           style: TextStyle(
+            fontFamily: 'Caveat',
             fontWeight: FontWeight.bold,
-            fontSize: 24,
+            fontSize: 36,
           ),
         ),
         actions: actions,

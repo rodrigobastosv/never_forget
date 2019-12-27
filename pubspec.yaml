@@ -48,9 +48,27 @@ dev_dependencies:
     sdk: flutter
   hive_generator: ^0.5.2
   build_runner: ^1.7.1
+  flutter_launcher_icons: ^0.7.3
+  flutter_native_splash: ^0.1.9
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/images/launcher_foreground.png"
+  adaptive_icon_background: "assets/images/launcher_background.png"
+  adaptive_icon_foreground: "assets/images/launcher_foreground.png"
+
+flutter_native_splash:
+  image: "assets/images/splash_foreground.png"
+  color: "ffc107"
 
 dependency_overrides:
   intl: ^0.15.8
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Caveat
+      fonts:
+        - asset: assets/fonts/Caveat/Caveat-Bold.ttf
+          weight: 700
