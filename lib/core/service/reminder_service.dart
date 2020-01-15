@@ -12,11 +12,18 @@ class ReminderService {
     return Hive.box(REMINDER);
   }
 
-  List<Reminder> getRemindersList() {
-    final now = DateTime.now();
+  List<Reminder> getRemindersList(String filter) {
+    List<Reminder> remindersList = [];
     final reminderBox = getReminderBox();
-    final remindersList = reminderBox.values.toList()
-      .where((reminder) => reminder.date.isAfter(now)).toList();
+    if (filter == '') {
+      remindersList = reminderBox.values.toList();
+    } else {
+      remindersList = reminderBox.values.toList().where((reminder) {
+        final title = reminder.title ?? '';
+        final description = reminder.description ?? '';
+        return title.contains(filter) || description.contains(filter);
+      }).toList();
+    }
     remindersList.sort((r1, r2) => r1.date.compareTo(r2.date));
     return remindersList;
   }

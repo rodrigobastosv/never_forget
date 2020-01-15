@@ -293,7 +293,7 @@ class _RemindersCalendarPageState extends State<RemindersCalendarPage> {
   }
 
   List<Reminder> _getRemindersOfDate(DateTime date) {
-    final reminders = _reminderService.getRemindersList();
+    final reminders = _reminderService.getRemindersList('');
     return reminders
         .where((reminder) => isSameDay(reminder.date, date))
         .toList();
@@ -312,7 +312,7 @@ class _RemindersCalendarPageState extends State<RemindersCalendarPage> {
   }
 
   Map<DateTime, List> _buildLessonsMap() {
-    final reminders = _reminderService.getRemindersList();
+    final reminders = _reminderService.getRemindersList('');
 
     final Map<DateTime, List> remindersMap = {};
     for (Reminder reminder in reminders) {
