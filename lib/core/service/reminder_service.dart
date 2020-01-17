@@ -24,7 +24,7 @@ class ReminderService {
         return title.contains(filter) || description.contains(filter);
       }).toList();
     }
-    remindersList.sort((r1, r2) => r1.date.compareTo(r2.date));
+    remindersList.sort((r1, r2) => r2.date.compareTo(r1.date));
     return remindersList;
   }
 
